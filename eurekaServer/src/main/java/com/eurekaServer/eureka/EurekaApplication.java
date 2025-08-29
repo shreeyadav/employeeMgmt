@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 @EnableEurekaServer
 public class EurekaApplication {
-
+// i'm testing
 	public static void main(String[] args) {
 		SpringApplication.run(EurekaApplication.class, args);
 	}
