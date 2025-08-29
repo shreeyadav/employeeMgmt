@@ -1,0 +1,42 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: api-gateway
+  profiles:
+    active: local
+  cloud:
+    gateway:
+      routes:
+        - id: employee-service
+          uri: lb://employee-service
+          predicates:
+            - Path=/employees/**
+
+        - id: department-service
+          uri: lb://department-service
+          predicates:
+              - Path=/departments/**
+
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/notifications/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    com.netflix.discovery: DEBUG
+    org.hibernate.SQL: DEBUG
+
+
+

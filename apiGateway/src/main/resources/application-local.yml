@@ -1,0 +1,47 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: employee-service
+          uri: lb://employee-service
+          predicates:
+            - Path=/employees/**
+          filters:
+            - name: Retry
+              args:
+                retries: 3
+                statuses: BAD_GATEWAY, SERVICE_UNAVAILABLE
+
+        - id: department-service
+          uri: lb://department-service
+          predicates:
+            - Path=/departments/**
+
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/notifications/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+
+
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    com.netflix.discovery: DEBUG
+    org.hibernate.SQL: DEBUG
+
+
+

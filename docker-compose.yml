@@ -1,0 +1,94 @@
+services:
+  eureka-server:
+    build: ./eurekaServer
+    ports:
+      - "8761:8761"
+    networks:
+      - micro-net
+
+  api-gateway:
+    build: ./apiGateway
+    ports:
+      - "9090:9090"
+    depends_on:
+      - eureka-server
+    networks:
+      - micro-net
+
+  employee-service:
+    build: ./employeeMgmt
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql-employee
+      - eureka-server
+    networks:
+      - micro-net
+
+  mysql-employee:
+    image: mysql:8.0
+    container_name: mysql-employee
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: employeeMgmt
+    volumes:
+      - employee_data:/var/lib/mysql
+    networks:
+      - micro-net
+
+  department-service:
+    build: ./department
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mysql-department
+      - eureka-server
+    networks:
+      - micro-net
+
+  mysql-department:
+    image: mysql:8.0
+    container_name: mysql-department
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: departmentservice
+    volumes:
+      - department_data:/var/lib/mysql
+    networks:
+      - micro-net
+
+  notification-service:
+    build: ./notification
+    ports:
+      - "8083:8083"
+    depends_on:
+      - mysql-notification
+      - eureka-server
+    networks:
+      - micro-net
+
+  mysql-notification:
+    image: mysql:8.0
+    container_name: mysql-notification
+    ports:
+      - "3309:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: notificationDatabase
+    volumes:
+      - notification_data:/var/lib/mysql
+    networks:
+      - micro-net
+
+volumes:
+  employee_data:
+  department_data:
+  notification_data:
+
+networks:
+  micro-net:
+    driver: bridge

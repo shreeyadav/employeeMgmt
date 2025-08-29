@@ -1,0 +1,47 @@
+services:
+  eureka-server:
+    build: ./eurekaServer
+    ports:
+      - "8761:8761"
+    networks:
+      - micro-net
+
+  api-gateway:
+    build: ./apiGateway
+    ports:
+      - "9090:9090"
+    depends_on:
+      - eureka-server
+    networks:
+      - micro-net
+
+  employee-service:
+    build: ./employeeMgmt
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka-server
+    networks:
+      - micro-net
+
+  department-service:
+    build: ./department
+    ports:
+      - "8082:8082"
+    depends_on:
+      - eureka-server
+    networks:
+      - micro-net
+
+  notification-service:
+    build: ./notification
+    ports:
+      - "8083:8083"
+    depends_on:
+      - eureka-server
+    networks:
+      - micro-net
+
+networks:
+  micro-net:
+    driver: bridge
