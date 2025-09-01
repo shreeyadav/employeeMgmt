@@ -4,8 +4,8 @@ server:
 spring:
   application:
     name: notification-service
-  profiles:
-    active: local
+#  profiles:
+#    active: local
 
   datasource:
     url: jdbc:mysql://mysql-notification:3306/notificationDatabase

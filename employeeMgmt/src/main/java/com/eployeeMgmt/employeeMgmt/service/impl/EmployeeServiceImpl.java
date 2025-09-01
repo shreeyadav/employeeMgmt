@@ -49,7 +49,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
                 Map<String, Object> combinedMap = new HashMap<>();
                 combinedMap.put("employee", employee);
                 combinedMap.put("department", departmentDetails);
-                Map<String,Object> response= notificationClient.sendEmailNotification(combinedMap);
+                //Map<String,Object> response= notificationClient.sendEmailNotification(combinedMap);
                 //savedEmployee.setNotificationStatus(response);
                 return ResponseEntity.ok(savedEmployee);
             } else {

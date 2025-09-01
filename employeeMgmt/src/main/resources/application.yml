@@ -4,8 +4,8 @@ server:
 spring:
   application:
     name: employee-service
-  profiles:
-    active: local
+#  profiles:
+#    active: local
 
   datasource:
     url: jdbc:mysql://mysql-employee:3306/employeeMgmt

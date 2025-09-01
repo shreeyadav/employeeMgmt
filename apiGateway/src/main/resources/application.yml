@@ -4,8 +4,8 @@ server:
 spring:
   application:
     name: api-gateway
-  profiles:
-    active: local
+#  profiles:
+#    active: local
   cloud:
     gateway:
       routes:

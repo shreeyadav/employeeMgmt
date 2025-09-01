@@ -4,8 +4,8 @@ server:
 spring:
   application:
     name: department-service
-  profiles:
-    active: local
+#  profiles:
+#    active: local
 
   datasource:
     url: jdbc:mysql://mysql-department:3306/departmentservice
