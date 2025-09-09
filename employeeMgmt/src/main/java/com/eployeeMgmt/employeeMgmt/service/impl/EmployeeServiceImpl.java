@@ -13,7 +13,10 @@ import feign.FeignException;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,7 +31,7 @@ import java.util.logging.Logger;
 @Slf4j
 public class EmployeeServiceImpl implements IEmployeeService {
 
-
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(EmployeeServiceImpl.class);
     @Autowired
     private IEmployeeRepository repo;
 
@@ -45,6 +48,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
         try {
             DepartmentDetails departmentDetails = departmentClient.getDepartment(employee.getDepartmentId());
             if (departmentDetails != null && departmentDetails.getId() != null) {
+                logger.info("o");
                 EmployeeDetails savedEmployee = repo.save(employee);
                 Map<String, Object> combinedMap = new HashMap<>();
                 combinedMap.put("employee", employee);
@@ -84,6 +88,12 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
         return response;
     }
+
+    public Page<EmployeeDetails> getAllEmployees(Pageable pageable) {
+        return repo.findAll(pageable);
+    }
+
+
     public List<EmployeeDetails> getAll() {
         return repo.findAll();
     }

@@ -2,6 +2,9 @@ package com.eployeeMgmt.employeeMgmt.service;
 
 import com.eployeeMgmt.employeeMgmt.dto.EmployeeDetailsResponse;
 import com.eployeeMgmt.employeeMgmt.model.EmployeeDetails;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -18,4 +21,6 @@ public interface IEmployeeService {
     List<EmployeeDetails> getAll();
 
     EmployeeDetailsResponse getEmployeeInfo(Long id);
+
+    Page<EmployeeDetails> getAllEmployees(Pageable pageRequest);
 }

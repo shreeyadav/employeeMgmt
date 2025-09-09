@@ -5,9 +5,12 @@ import com.eployeeMgmt.employeeMgmt.model.EmployeeDetails;
 import com.eployeeMgmt.employeeMgmt.client.NotificationClient;
 import com.eployeeMgmt.employeeMgmt.service.IEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import java.util.List;
 
 @RestController
@@ -50,5 +53,17 @@ public class EmployeeController {
         return ResponseEntity.ok("Employee deleted successfully");
     }
 
+    @GetMapping("allEmployees")
+    public ResponseEntity<Page<EmployeeDetails>> getAllEmployees(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "id,asc") String[] sort) {
+
+        Sort sortOrder = Sort.by(Sort.Direction.fromString(sort[1]), sort[0]);
+        Pageable pageable = PageRequest.of(page, size, sortOrder);
+        Page<EmployeeDetails> employees = service.getAllEmployees(pageable);
+
+        return ResponseEntity.ok(employees);
+    }
 
 }
